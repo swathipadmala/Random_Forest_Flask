@@ -1,5 +1,4 @@
 Flask
-pickle
 flask_cors
 gunicorn
 numpy
