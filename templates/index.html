@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌲 Random Forest Classifier App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('static/background.jpg') no-repeat center center/cover;
+            text-align: center;
+            color: white;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(28, 43, 58, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            width: 80%;
+            max-width: 600px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h2 {
+            color: #f0a500;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+        }
+
+        .image-container img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-container {
+            text-align: left;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        input {
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            border: 2px solid #f0a500;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #2e3d4f;
+            color: white;
+            outline: none;
+            text-align: center;
+        }
+
+        button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: bold;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        button:hover {
+            background-color: #e65100;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+            background: #003f5c;
+            color: #fff;
+            width: 100%;
+            max-width: 400px;
+            display: none;
+        }
+    </style>
+    <script>
+        async function getPrediction() {
+            let feature1 = document.getElementById("feature1").value;
+            let feature2 = document.getElementById("feature2").value;
+
+            let response = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ feature1: feature1, feature2: feature2 })
+            });
+
+            let result = await response.json();
+            let resultDiv = document.getElementById("result");
+            resultDiv.innerText = "✅ Predicted Class: " + result.prediction;
+            resultDiv.style.display = "block";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>🌲 Random Forest Classifier App</h2>
+        <p class="description">
+            This application uses a <b>Random Forest</b> model to classify data points. 
+            Enter values for Feature 1 and Feature 2, and click <b>"Predict"</b> to classify the input.
+        </p>
+
+        <!-- Updated Image from Web -->
+        <div class="image-container">
+            <img src="https://www.researchgate.net/publication/354354484/figure/fig4/AS:1080214163595269@1634554534720/Illustration-of-random-forest-trees.jpg" alt="Random Forest Visualization">
+        </div>
+
+        <div class="input-container">
+            <label for="feature1">Feature 1:</label>
+            <input type="text" id="feature1" placeholder="Enter value">
+
+            <label for="feature2">Feature 2:</label>
+            <input type="text" id="feature2" placeholder="Enter value">
+        </div>
+
+        <button onclick="getPrediction()">📊 Predict</button>
+        <p id="result" class="result"></p>
+    </div>
+</body>
+</html>
